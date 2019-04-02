@@ -1,6 +1,9 @@
 // fazendo loading da app utilizando express...
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+
+app.use(morgan('short'))
 
 app.get("/", (req, res) => {
     console.log("Responding to root route")
