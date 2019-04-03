@@ -3,7 +3,11 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 
-app.use(morgan('short'))
+app.use(morgan('combined'))
+
+app.get("/users/:id", (req, res) => {
+    console.log("Buscando utilizadores pelo id: " + req.params.id)
+})
 
 app.get("/", (req, res) => {
     console.log("Responding to root route")
