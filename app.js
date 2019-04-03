@@ -4,6 +4,8 @@ const app = express()
 const morgan = require('morgan')
 const mysql = require('mysql')
 
+app.use(express.static('./public'))
+
 app.use(morgan('dev'))
 
 const connection = mysql.createConnection({
@@ -25,7 +27,7 @@ app.get("/users/:id", (req, res) => {
             res.end()
         }
         const users = rows.map((row) => {
-            return {firstName: row.first_name, lastName: row.last_name}
+            return {id: row.id, firstName: row.first_name, lastName: row.last_name}
         })
         res.json(users)
     })
