@@ -4,16 +4,43 @@ const app = express()
 const morgan = require('morgan')
 const mysql = require('mysql')
 
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({extended: false}))
+
 app.use(express.static('./public'))
 
 app.use(morgan('dev'))
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'nodejs_api',
-    password: 'ANGO_covdb157016'
+
+
+function getConnection() {
+    return mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'nodejs_api',
+        password: 'ANGO_covdb157016'
+    })
+}
+
+
+app.post('/users/create',(req, res) => {
+
+    const primeiro_nome = req.body.first_name
+    const ultimo_nome = req.body.last_name
+
+    const queryInsertUser = "INSERT INTO users (first_name, last_name) VALUES(?, ?)"
+
+    getConnection().query(queryInsertUser, [primeiro_nome, ultimo_nome], (err, results, fields) => {
+        if (err) {
+            console.log("Erro ao inserir novo utilizador, Erro: " + err)
+            res.sendStatus(500)
+            return
+        }
+    })
+    res.end()
 })
+
 
 app.get("/users/:id", (req, res) => {
 
