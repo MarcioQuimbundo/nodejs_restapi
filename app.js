@@ -47,7 +47,7 @@ app.get("/users/:id", (req, res) => {
     var userId = req.params.id
     const queryString = "SELECT * FROM users WHERE id = ?"
 
-    connection.query(queryString, [userId], (err, rows, fields) => {
+    getConnection().query(queryString, [userId], (err, rows, fields) => {
         if (err) {
             console.log("Erro ao buscar utilizador, Erro: " + err)
             res.sendStatus(500)
@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 app.get("/users", (req, res) => {
     const queryStringAllUsers = "SELECT * FROM users"
 
-    connection.query(queryStringAllUsers, (err, rows, fields) => {
+    getConnection().query(queryStringAllUsers, (err, rows, fields) => {
         if (err) {
             console.log("Erro ao buscar todos os utilizadores, Erro: " + err)
             res.sendStatus(500)
